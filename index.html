@@ -1,0 +1,779 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>BBEEARR — the plush tap room</title>
+<meta name="description" content="everything here is sewn. the beer is yarn. the foam is a pom-pom.">
+<link rel="icon" href="assets/favicon.png">
+<meta property="og:title" content="BBEEARR">
+<meta property="og:description" content="the beer is yarn. the foam is a pom-pom.">
+<meta property="og:image" content="assets/hero.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script>
+/* SETTINGS - everything is changed here, at the top, in ONE place */
+window.CONTRACT = "";  /* contract address. empty = "soon" */
+window.TWITTER  = "";  /* link to X. empty = plain x.com link */
+document.addEventListener('DOMContentLoaded', function(){
+  var CA=(window.CONTRACT||"").trim(), TW=(window.TWITTER||"").trim();
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href')||"";
+    if(h.indexOf('pump.fun')>-1){ if(CA) a.href='https://pump.fun/coin/'+CA; }
+    else if(h.indexOf('dexscreener')>-1){ if(CA) a.href='https://dexscreener.com/solana/'+CA; }
+    else if(h.indexOf('x.com')>-1||h.indexOf('twitter.com')>-1){ if(TW) a.href=TW; }
+  });
+  if(CA){
+    document.querySelectorAll('.ca b, .ca-val').forEach(function(b){ b.textContent=CA; });
+    document.querySelectorAll('.ca, .ca-row').forEach(function(el){
+      el.title=CA; el.style.cursor='pointer';
+      el.addEventListener('click', function(){ if(navigator.clipboard) navigator.clipboard.writeText(CA); });
+    });
+  }
+});
+</script>
+
+<style>
+:root{
+  --felt:#f0dfbe;      /* cream fabric */
+  --felt-d:#e2cda4;
+  --fur:#b07a4c;       /* bear fur */
+  --fur-d:#8a5a33;
+  --fur-l:#cf9d67;
+  --ink:#3b2617;       /* stitch dark */
+  --amber:#e6a52b;     /* plush beer */
+  --amber-d:#c07f16;
+  --foam:#fff7e4;      /* pom-pom */
+  --navy:#2a3358;      /* bow tie */
+  --thread:#fff3d8;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--felt);
+  background-image:
+    repeating-linear-gradient(0deg,rgba(59,38,23,.05) 0 1px,transparent 1px 4px),
+    repeating-linear-gradient(90deg,rgba(59,38,23,.045) 0 1px,transparent 1px 4px),
+    radial-gradient(circle at 22% 18%,#fbeeda 0,transparent 55%),
+    radial-gradient(circle at 78% 84%,#e6cfa5 0,transparent 60%);
+  color:var(--ink);
+  font-family:'DM Mono',ui-monospace,monospace;
+  overflow-x:clip;
+  -webkit-tap-highlight-color:transparent;
+}
+h1,h2,h3,.disp{font-family:'Baloo 2',system-ui,sans-serif;font-weight:800;letter-spacing:.01em}
+img{max-width:100%;display:block}
+a{color:inherit}
+
+/* ---------- plush primitives ---------- */
+.fur{
+  background-color:var(--fur);
+  background-image:
+    radial-gradient(circle at 32% 30%,rgba(255,255,255,.26) 0 26%,transparent 27%),
+    radial-gradient(circle at 68% 72%,rgba(0,0,0,.20) 0 24%,transparent 25%),
+    radial-gradient(circle at 80% 20%,rgba(255,255,255,.14) 0 18%,transparent 19%);
+  background-size:15px 15px,12px 12px,19px 19px;
+}
+.plush{
+  position:relative;border-radius:28px;
+  background:var(--felt);
+  box-shadow:
+    inset 0 7px 0 rgba(255,255,255,.55),
+    inset 0 -9px 0 rgba(59,38,23,.13),
+    inset 0 0 0 3px var(--ink),
+    0 10px 0 rgba(59,38,23,.28),
+    0 26px 40px rgba(59,38,23,.22);
+}
+.plush::after{
+  content:"";position:absolute;inset:10px;border-radius:20px;
+  border:2px dashed rgba(255,247,228,.9);pointer-events:none;
+  mix-blend-mode:soft-light;opacity:.9;
+}
+.stitched{border:3px solid var(--ink);border-radius:22px;position:relative}
+.stitched::before{content:"";position:absolute;inset:6px;border:2px dashed rgba(59,38,23,.35);border-radius:16px;pointer-events:none}
+
+.btn{
+  font-family:'Baloo 2',sans-serif;font-weight:800;font-size:15px;letter-spacing:.06em;
+  text-transform:uppercase;text-decoration:none;cursor:pointer;
+  display:inline-flex;align-items:center;gap:9px;
+  padding:13px 20px;border-radius:18px;border:3px solid var(--ink);
+  background:var(--amber);color:var(--ink);
+  box-shadow:0 6px 0 var(--ink),inset 0 5px 0 rgba(255,255,255,.45),inset 0 -6px 0 rgba(59,38,23,.16);
+  transition:transform .08s,box-shadow .08s;
+}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 var(--ink),inset 0 4px 0 rgba(255,255,255,.35)}
+.btn.alt{background:var(--felt)}
+.btn.dark{background:var(--fur);color:var(--thread)}
+.btn i{width:15px;height:15px;display:block;background-size:contain;background-repeat:no-repeat}
+.tag{
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;opacity:.65;
+}
+
+/* ---------- overlays ---------- */
+.film{position:fixed;inset:0;pointer-events:none;z-index:70}
+.film .weave{position:absolute;inset:0;background-image:
+  repeating-linear-gradient(0deg,rgba(59,38,23,.12) 0 1px,transparent 1px 3px),
+  repeating-linear-gradient(90deg,rgba(59,38,23,.08) 0 1px,transparent 1px 3px);
+  mix-blend-mode:multiply;opacity:.5}
+.film .grain{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.55) .5px,transparent .6px);background-size:3px 3px;mix-blend-mode:overlay;opacity:.18}
+.film .vig{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,transparent 50%,rgba(59,38,23,.42) 100%)}
+
+/* ---------- gate ---------- */
+#gate{position:fixed;inset:0;z-index:120;display:grid;place-items:center;background:var(--felt);
+  background-image:radial-gradient(circle at 50% 40%,#fbeeda,#dcc59a 90%)}
+#gate .in{text-align:center;padding:24px}
+#gate .pom{width:132px;height:132px;margin:0 auto 22px;border-radius:48% 52% 51% 49%;
+  background-image:
+    radial-gradient(circle at 38% 32%,rgba(255,255,255,.95) 0,rgba(255,255,255,0) 55%),
+    radial-gradient(circle at 62% 72%,rgba(59,38,23,.16) 0,rgba(59,38,23,0) 55%),
+    repeating-conic-gradient(from 8deg,var(--foam) 0 5deg,#ecdcbe 5deg 10deg);
+  box-shadow:inset 0 0 0 3px var(--ink),0 10px 0 rgba(59,38,23,.22);
+  animation:bob 2.6s ease-in-out infinite alternate}
+#gate h2{margin:0 0 8px;font-size:clamp(30px,7vw,58px)}
+#gate p{margin:0 0 26px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;opacity:.6}
+body.entered #gate{opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}
+
+/* ---------- loader ---------- */
+#load{position:fixed;inset:0;z-index:110;display:none;place-items:center;background:var(--felt)}
+body.loading #load{display:grid}
+#load .box{width:min(520px,88vw);text-align:center}
+#load h3{margin:0 0 6px;font-size:clamp(20px,4vw,30px)}
+#load .sub{font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:.55;margin-bottom:22px}
+.tube{height:34px;border-radius:17px;border:3px solid var(--ink);background:#fff8ea;overflow:hidden;position:relative;
+  box-shadow:inset 0 4px 0 rgba(59,38,23,.1)}
+.tube i{display:block;height:100%;width:0%;
+  background-color:var(--foam);
+  background-image:radial-gradient(circle at 30% 30%,rgba(255,255,255,.95) 0 30%,transparent 31%),
+    radial-gradient(circle at 70% 70%,rgba(59,38,23,.13) 0 26%,transparent 27%);
+  background-size:14px 14px,11px 11px;transition:width .25s;
+  box-shadow:inset 0 0 0 2px rgba(59,38,23,.18)}
+#load .pct{margin-top:12px;font-size:12px;letter-spacing:.16em;opacity:.6}
+#skip{margin-top:20px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;background:none;border:0;
+  border-bottom:2px dashed var(--ink);color:var(--ink);cursor:pointer;padding:2px 0;font-family:'DM Mono',monospace}
+
+/* ---------- layout ---------- */
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+section{padding:70px 0}
+.head{display:flex;align-items:baseline;gap:14px;margin-bottom:26px;flex-wrap:wrap}
+.head h2{margin:0;font-size:clamp(24px,4.4vw,40px)}
+.head .tag{border-bottom:2px dashed rgba(59,38,23,.35);padding-bottom:2px}
+
+/* ---------- hero ---------- */
+#hero{position:relative;padding:34px 0 40px;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:30px;align-items:center}
+.mark{display:flex;flex-wrap:nowrap;line-height:.86;margin:0 0 14px}
+.mark span{
+  font-family:'Baloo 2',sans-serif;font-weight:800;
+  font-size:clamp(48px,8.8vw,110px);
+  background-color:var(--fur-l);
+  background-image:
+    linear-gradient(#f4d9b0 26%,#cf9d67 56%,#96633a 100%),
+    radial-gradient(circle at 32% 30%,rgba(255,255,255,.45) 0 26%,transparent 27%),
+    radial-gradient(circle at 70% 72%,rgba(0,0,0,.22) 0 24%,transparent 25%);
+  background-size:100% 100%,14px 14px,11px 11px;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  -webkit-text-stroke:7px var(--ink);paint-order:stroke fill;
+  filter:drop-shadow(0 8px 0 #6e4526) drop-shadow(0 15px 0 #4a2d17) drop-shadow(0 22px 26px rgba(59,38,23,.42));
+}
+.mark span:nth-child(2n){transform:rotate(-3deg) translateY(4px)}
+.mark span:nth-child(3n){transform:rotate(2.5deg) translateY(-3px)}
+.slogan{font-size:clamp(14px,2vw,19px);line-height:1.55;max-width:34ch;margin:0 0 22px;opacity:.85}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.bear-stage{position:relative;display:grid;place-items:end center;min-height:340px}
+.bear-stage .halo{position:absolute;inset:6% 4% 10%;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.75) 0 42%,rgba(230,208,165,.5) 70%,transparent 78%)}
+.bear-stage img{position:relative;max-height:min(62vh,540px);width:auto;
+  filter:drop-shadow(0 24px 22px rgba(59,38,23,.35));animation:bob 4.2s ease-in-out infinite alternate}
+.hud{position:absolute;font-size:10px;letter-spacing:.2em;text-transform:uppercase;opacity:.5}
+.hud.tl{top:6px;left:2px}.hud.tr{top:6px;right:2px}.hud.br{bottom:0;right:2px}
+
+.ca{display:inline-flex;align-items:center;gap:10px;max-width:100%;
+  padding:11px 15px;border-radius:16px;border:3px solid var(--ink);background:#fff8ea;
+  box-shadow:inset 0 4px 0 rgba(255,255,255,.6),0 5px 0 rgba(59,38,23,.22);cursor:pointer}
+.ca em{font-style:normal;font-size:10px;letter-spacing:.2em;text-transform:uppercase;opacity:.55;flex:none}
+.ca b{font-weight:500;font-size:12px;word-break:break-all;overflow-wrap:anywhere}
+.ca:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(59,38,23,.22)}
+
+.side-ca{position:fixed;left:0;top:50%;transform:translateY(-50%) rotate(180deg);writing-mode:vertical-rl;
+  z-index:60;padding:14px 8px;background:var(--fur);color:var(--thread);border:3px solid var(--ink);
+  border-left:0;border-radius:0 16px 16px 0;font-size:10px;letter-spacing:.24em;text-transform:uppercase;cursor:pointer}
+.mob-ca{display:none}
+
+/* ---------- marquee ---------- */
+.mq{border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);background:var(--fur);color:var(--thread);
+  overflow:hidden;white-space:nowrap;padding:11px 0}
+.mq div{display:inline-block;animation:mq 26s linear infinite;font-size:14px;letter-spacing:.2em;text-transform:uppercase}
+.mq b{font-weight:500;margin:0 26px;opacity:.92}
+.mq b::after{content:"◍";margin-left:26px;opacity:.5}
+
+/* ---------- the tap (fichka) ---------- */
+.tap-wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:26px;align-items:stretch}
+.bar{padding:26px 24px 30px;overflow:hidden}
+.bar-scene{position:relative;height:450px;display:grid;place-items:end center}
+.counter{position:absolute;left:-10px;right:-10px;bottom:-4px;height:34px;border-radius:14px;
+  border:3px solid var(--ink);background-color:var(--fur);
+  background-image:radial-gradient(circle at 32% 30%,rgba(255,255,255,.22) 0 26%,transparent 27%),
+    radial-gradient(circle at 68% 72%,rgba(0,0,0,.16) 0 24%,transparent 25%);
+  background-size:15px 15px,12px 12px;
+  box-shadow:inset 0 5px 0 rgba(255,255,255,.22)}
+.counter::after{content:"";position:absolute;inset:6px;border:2px dashed rgba(255,243,216,.55);border-radius:8px}
+.tap{position:absolute;top:0;left:50%;transform:translateX(-50%);width:160px;z-index:3}
+.tap .plate{width:120px;height:22px;margin:0 auto;border-radius:11px;border:3px solid var(--ink);background:var(--fur-d);
+  box-shadow:inset 0 4px 0 rgba(255,255,255,.22)}
+.tap .pipe{width:38px;height:62px;margin:0 auto;border-radius:0 0 16px 16px;border:3px solid var(--ink);border-top:0;
+  background:var(--fur-d);background-image:radial-gradient(circle at 30% 30%,rgba(255,255,255,.2) 0 26%,transparent 27%);
+  background-size:12px 12px;box-shadow:inset 0 5px 0 rgba(255,255,255,.22)}
+.tap .spout{width:28px;height:30px;margin:0 auto;border-radius:0 0 14px 14px;border:3px solid var(--ink);border-top:0;
+  background:var(--fur-d);box-shadow:inset 0 4px 0 rgba(255,255,255,.18)}
+.tap .handle{position:absolute;top:26px;left:calc(50% + 16px);width:62px;height:24px;border-radius:12px;border:3px solid var(--ink);
+  background:var(--navy);transform-origin:0 50%;transition:transform .12s;
+  box-shadow:inset 0 4px 0 rgba(255,255,255,.22)}
+.tap .handle::after{content:"";position:absolute;right:-9px;top:-8px;width:26px;height:26px;border-radius:50%;
+  border:3px solid var(--ink);background:var(--foam);
+  background-image:radial-gradient(circle at 30% 30%,rgba(255,255,255,.9) 0 30%,transparent 31%);background-size:9px 9px}
+body.pouring .tap .handle{transform:rotate(26deg)}
+
+.stream{position:absolute;top:110px;left:50%;margin-left:-12px;width:24px;height:0;z-index:2;
+  border-radius:0 0 10px 10px;overflow:hidden;opacity:0;transition:opacity .12s;
+  box-shadow:0 0 0 3px var(--ink) inset}
+.stream i{display:block;height:100%;
+  background:repeating-linear-gradient(180deg,var(--amber) 0 9px,var(--amber-d) 9px 18px);
+  animation:flow .35s linear infinite}
+body.pouring .stream{opacity:1}
+
+.mug{position:relative;width:210px;height:250px;z-index:4;margin-bottom:24px}
+.mug .body{position:absolute;inset:0;border-radius:16px 16px 26px 26px;border:4px solid var(--ink);
+  background-color:#f6e7c8;
+  background-image:radial-gradient(circle at 32% 30%,rgba(255,255,255,.55) 0 26%,transparent 27%),
+    radial-gradient(circle at 70% 72%,rgba(59,38,23,.10) 0 24%,transparent 25%);
+  background-size:13px 13px,10px 10px;overflow:hidden;
+  box-shadow:inset 0 6px 0 rgba(255,255,255,.55),inset 0 -8px 0 rgba(59,38,23,.14),0 10px 0 rgba(59,38,23,.25)}
+.mug .body::after{content:"";position:absolute;inset:7px;border:2px dashed rgba(59,38,23,.30);
+  border-radius:10px 10px 20px 20px;pointer-events:none;z-index:7}
+.mug .crown{position:absolute;left:-16px;right:-16px;top:-26px;height:44px;z-index:5;opacity:0;
+  transition:opacity .2s;pointer-events:none}
+.mug.crowned .crown{opacity:1}
+.mug .crown i,.mug .foam i{position:absolute;border-radius:49% 51% 52% 48%;
+  background-image:
+    radial-gradient(circle at 38% 32%,rgba(255,255,255,.95) 0,rgba(255,255,255,0) 58%),
+    radial-gradient(circle at 64% 74%,rgba(59,38,23,.16) 0,rgba(59,38,23,0) 55%),
+    repeating-conic-gradient(from 8deg,var(--foam) 0 6deg,#ecdcbe 6deg 12deg);
+  box-shadow:inset 0 0 0 2px rgba(59,38,23,.5)}
+.mug .crown i:nth-child(1){left:0;bottom:2px;width:42px;height:42px}
+.mug .crown i:nth-child(2){left:22%;bottom:10px;width:52px;height:52px}
+.mug .crown i:nth-child(3){left:48%;bottom:0;width:46px;height:46px}
+.mug .crown i:nth-child(4){right:4%;bottom:8px;width:50px;height:50px}
+body.spill .mug .crown{animation:drip .9s ease-in-out infinite alternate}
+.mug .fill{position:absolute;left:0;right:0;bottom:0;height:0%;
+  background-color:var(--amber);
+  background-image:
+    repeating-linear-gradient(45deg,rgba(255,255,255,.30) 0 3px,transparent 3px 8px),
+    repeating-linear-gradient(-45deg,rgba(59,38,23,.16) 0 3px,transparent 3px 8px);
+  transition:height .09s linear;z-index:1}
+.mug .fill::before{content:"";position:absolute;left:0;right:0;top:-7px;height:14px;
+  background:repeating-linear-gradient(90deg,var(--foam) 0 10px,#f3e2c2 10px 20px);
+  border-radius:50%;filter:blur(.4px)}
+.mug .foam{position:absolute;left:-4px;right:-4px;height:0;bottom:0;transition:height .12s,bottom .09s linear;
+  pointer-events:none;z-index:2}
+.mug .label{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);
+  font-family:'Baloo 2',sans-serif;font-weight:800;font-size:40px;letter-spacing:.06em;color:#e7c98f;
+  text-shadow:0 2px 0 rgba(255,255,255,.6),0 -2px 0 rgba(59,38,23,.35);z-index:6;pointer-events:none}
+.mug .band{position:absolute;top:6%;bottom:10%;width:16px;background:rgba(59,38,23,.16);z-index:5;border-radius:5px}
+.mug .band.l{left:14%}.mug .band.r{right:14%}
+.mug .rim{position:absolute;left:0;right:0;top:0;height:15px;background:rgba(255,255,255,.42);border-bottom:3px solid rgba(59,38,23,.30);z-index:4;pointer-events:none}
+.mug .handle{position:absolute;right:-64px;top:52px;width:78px;height:112px;border-radius:0 46px 46px 0;
+  border:4px solid var(--ink);border-left:0;background:#f6e7c8;z-index:-1;
+  box-shadow:inset 0 6px 0 rgba(255,255,255,.5)}
+.puddle{position:absolute;bottom:20px;z-index:1;left:50%;transform:translateX(-50%) scaleX(0);transform-origin:50% 50%;
+  width:320px;height:34px;border-radius:50%;opacity:.75;transition:transform .4s;
+  background-color:var(--amber);
+  background-image:radial-gradient(circle at 30% 30%,rgba(255,255,255,.35) 0 26%,transparent 27%),radial-gradient(circle at 72% 70%,rgba(59,38,23,.2) 0 24%,transparent 25%);
+  background-size:13px 13px,10px 10px;border:3px solid var(--ink)}
+body.spill .puddle{transform:translateX(-50%) scaleX(1)}
+
+.tap-ui{display:flex;flex-direction:column;gap:14px}
+.gauge{padding:20px 20px 22px}
+.gauge .row{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.16em;text-transform:uppercase;opacity:.6;margin-bottom:10px}
+.gauge .num{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:clamp(34px,6vw,58px);line-height:1;margin:2px 0 4px}
+#pourbtn{width:100%;justify-content:center;font-size:17px;padding:20px;user-select:none;touch-action:none}
+#verdict{min-height:22px;font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+.notes{font-size:12px;line-height:1.7;opacity:.75}
+.notes b{font-weight:500}
+.snd{display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.18em;text-transform:uppercase}
+.snd button{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  border:2px solid var(--ink);background:var(--felt);border-radius:10px;padding:6px 10px;cursor:pointer}
+.snd input{flex:1;accent-color:var(--fur-d)}
+
+/* ---------- lore ---------- */
+.lore{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.lore p{margin:0;padding:22px 22px 24px;font-size:13.5px;line-height:1.75}
+.lore p em{font-style:normal;display:block;font-size:10px;letter-spacing:.2em;text-transform:uppercase;opacity:.5;margin-bottom:9px}
+
+/* ---------- the set (tv) ---------- */
+.tv-wrap{display:grid;grid-template-columns:1fr 300px;gap:22px;align-items:start}
+.tv{padding:22px 22px 18px}
+.screen{position:relative;border-radius:18px;overflow:hidden;border:4px solid var(--ink);background:#241708;aspect-ratio:16/9}
+.screen img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:0;transition:opacity .28s}
+.screen img.on{opacity:1}
+.screen .lines{position:absolute;inset:0;background:repeating-linear-gradient(rgba(0,0,0,.22) 0 1px,transparent 1px 3px);pointer-events:none}
+.screen .roll{position:absolute;left:0;right:0;height:30%;background:linear-gradient(180deg,transparent,rgba(255,255,255,.13),transparent);animation:roll 7s linear infinite;pointer-events:none}
+.screen .ch{position:absolute;left:12px;top:10px;font-size:10px;letter-spacing:.2em;color:var(--foam);opacity:.8;text-shadow:0 1px 2px #000}
+.screen .rec{position:absolute;right:12px;top:10px;font-size:10px;letter-spacing:.2em;color:#ffd2a6;opacity:.9}
+.screen .rec::before{content:"●";margin-right:6px;animation:blink 1.3s steps(1) infinite}
+.tv-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px}
+.eq{display:flex;align-items:flex-end;gap:3px;height:16px}
+.eq i{width:4px;background:var(--fur-d);border-radius:2px;animation:eq .7s ease-in-out infinite alternate}
+.eq i:nth-child(2){animation-delay:.12s}.eq i:nth-child(3){animation-delay:.24s}
+.eq i:nth-child(4){animation-delay:.06s}.eq i:nth-child(5){animation-delay:.3s}
+.rules{padding:22px}
+.rules h3{margin:0 0 14px;font-size:18px}
+.rules li{list-style:none;font-size:12px;line-height:1.6;margin-bottom:12px;padding-left:14px;border-left:3px dashed rgba(59,38,23,.3)}
+.rules ul{margin:0;padding:0}
+
+/* ---------- gallery ---------- */
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;perspective:1300px;perspective-origin:50% 40%}
+.grid button{padding:0;border:0;background:none;cursor:pointer;transition:transform .35s cubic-bezier(.2,.8,.3,1)}
+.grid button img{border-radius:18px;border:4px solid var(--ink);aspect-ratio:1;object-fit:cover;
+  box-shadow:0 10px 0 rgba(59,38,23,.25),0 18px 26px rgba(59,38,23,.25)}
+.grid button:nth-child(3n+1){transform:rotateY(21deg) rotateX(-6deg) translateZ(-24px)}
+.grid button:nth-child(3n+2){transform:rotateY(-5deg) rotateX(8deg) translateZ(12px)}
+.grid button:nth-child(3n+3){transform:rotateY(-22deg) rotateX(-3deg) translateZ(-16px)}
+.grid button:hover,.grid button:focus-visible{transform:rotateY(0) rotateX(0) translateZ(58px);outline:0}
+
+#lb{position:fixed;inset:0;z-index:100;display:none;place-items:center;background:rgba(59,38,23,.86);padding:28px}
+#lb.on{display:grid}
+#lb figure{margin:0;max-width:min(900px,92vw)}
+#lb img{border-radius:20px;border:4px solid var(--ink);max-height:74vh;width:auto;margin:0 auto;
+  box-shadow:0 20px 50px rgba(0,0,0,.5)}
+#lb figcaption{color:var(--thread);text-align:center;font-size:12px;letter-spacing:.1em;margin-top:14px;opacity:.85}
+#lb .nav{position:absolute;top:50%;transform:translateY(-50%);font-size:26px;line-height:1;
+  border:3px solid var(--thread);color:var(--thread);background:transparent;border-radius:50%;
+  width:52px;height:52px;cursor:pointer;font-family:'Baloo 2',sans-serif}
+#lb .prev{left:20px}#lb .next{right:20px}
+#lb .x{position:absolute;top:18px;right:20px;background:none;border:0;color:var(--thread);font-size:12px;
+  letter-spacing:.2em;cursor:pointer;font-family:'DM Mono',monospace}
+
+/* ---------- sneak peek ---------- */
+.peek{overflow:hidden;border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);padding:16px 0;background:#e8d3ab}
+.peek .row{display:flex;gap:14px;width:max-content;animation:mq 34s linear infinite}
+.peek img{width:130px;height:130px;object-fit:cover;border-radius:16px;border:3px solid var(--ink);
+  box-shadow:0 6px 0 rgba(59,38,23,.22)}
+.peek img:nth-child(2n){transform:rotate(-3deg)}
+.peek img:nth-child(3n){transform:rotate(2.6deg)}
+
+/* ---------- footer ---------- */
+footer{padding:56px 0 90px;text-align:center}
+footer .mark2{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:clamp(30px,6vw,58px);
+  -webkit-text-stroke:5px var(--ink);paint-order:stroke fill;color:var(--fur-l);
+  filter:drop-shadow(0 6px 0 #6e4526);margin-bottom:14px}
+footer .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:20px 0}
+footer .stamp{font-size:10px;letter-spacing:.22em;text-transform:uppercase;opacity:.45;margin-top:18px}
+
+/* ---------- keyframes ---------- */
+@keyframes bob{to{transform:translateY(-11px) rotate(1.4deg)}}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes roll{from{top:-35%}to{top:110%}}
+@keyframes blink{50%{opacity:.15}}
+@keyframes eq{from{height:4px}to{height:16px}}
+@keyframes flow{from{background-position-y:0}to{background-position-y:18px}}
+@keyframes wob{0%,100%{transform:rotate(-1.2deg)}50%{transform:rotate(1.2deg)}}
+@keyframes drip{to{transform:translateY(7px)}}
+body.pouring .mug{animation:wob .5s ease-in-out infinite}
+
+/* ---------- mobile ---------- */
+@media (max-width:900px){
+  section{padding:48px 0}
+  .hero-grid,.tap-wrap,.tv-wrap,.lore{grid-template-columns:1fr}
+  .bear-stage{min-height:auto;order:-1}
+  .bear-stage img{max-height:42vh}
+  .hud{display:none}
+  .mark{margin-bottom:26px}
+  .mark span{font-size:min(11.4vw,64px);-webkit-text-stroke:5px var(--ink);letter-spacing:-.01em;
+    filter:drop-shadow(0 5px 0 #6e4526) drop-shadow(0 10px 0 #4a2d17) drop-shadow(0 16px 18px rgba(59,38,23,.4))}
+  .grid{grid-template-columns:repeat(2,1fr);perspective:none}
+  .grid button{transform:none!important}
+  .side-ca{display:none}
+  .mob-ca{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:65;border-radius:0;border-left:0;border-right:0;
+    justify-content:center;box-shadow:none}
+  footer{padding-bottom:110px}
+  .bar-scene{height:370px}
+  .mug{width:180px;height:220px}
+  .mug .handle{right:-54px;width:66px}
+  #lb .nav{top:auto;bottom:-4px;transform:none}
+  #lb .prev{left:28%}#lb .next{right:28%}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="film"><div class="weave"></div><div class="grain"></div><div class="vig"></div></div>
+
+<!-- GATE -->
+<div id="gate"><div class="in">
+  <div class="pom"></div>
+  <h2 class="disp">THE PLUSH TAP ROOM</h2>
+  <p>tap 01 · felt · dry bar</p>
+  <button class="btn" id="enter">click to enter</button>
+</div></div>
+
+<!-- LOADER -->
+<div id="load"><div class="box">
+  <h3 class="disp">STUFFING THE BEAR</h3>
+  <div class="sub">please do not squeeze during filling</div>
+  <div class="tube"><i id="bar"></i></div>
+  <div class="pct" id="pct">0% · adding fluff</div>
+  <button id="skip">skip</button>
+</div></div>
+
+<!-- HERO -->
+<section id="hero"><div class="wrap">
+  <div class="hero-grid">
+    <div>
+      <div class="tag" style="margin-bottom:14px">ticker · $BBEEARR · sewn on solana</div>
+      <h1 class="mark"><span>B</span><span>B</span><span>E</span><span>E</span><span>A</span><span>R</span><span>R</span></h1>
+      <p class="slogan">i am stuffed. the beer is also stuffed. we sit here together and nothing evaporates.</p>
+      <div class="hero-btns">
+        <a class="btn" href="https://pump.fun" target="_blank" rel="noopener">buy</a>
+        <a class="btn alt" href="https://x.com" target="_blank" rel="noopener">x</a>
+        <a class="btn dark" href="https://dexscreener.com" target="_blank" rel="noopener">chart</a>
+      </div>
+      <div class="ca"><em>ca</em><b>coming soon — the thread is still warm</b></div>
+    </div>
+    <div class="bear-stage">
+      <div class="hud tl">mug temp: room</div>
+      <div class="hud tr">day 4,102 at the bar</div>
+      <div class="halo"></div>
+      <img src="assets/cut-bear.webp" alt="bbeearr sitting upright with a felt mug he has never put down, bow tie already tied">
+      <div class="hud br">one eye is a button</div>
+    </div>
+  </div>
+</div></section>
+
+<div class="mq"><div id="mqrow"></div></div>
+
+<!-- THE TAP -->
+<section id="tap"><div class="wrap">
+  <div class="head"><h2 class="disp">THE TAP</h2><span class="tag">hold the handle. nothing spills. mostly.</span></div>
+  <div class="tap-wrap">
+    <div class="bar plush">
+      <div class="bar-scene">
+        <div class="tap"><div class="plate"></div><div class="pipe"></div><div class="spout"></div><div class="handle"></div></div>
+        <div class="stream" id="stream"><i></i></div>
+        <div class="counter"></div>
+        <div class="puddle"></div>
+        <div class="mug" id="mug">
+          <div class="handle"></div>
+          <div class="crown"><i></i><i></i><i></i><i></i></div>
+          <div class="body">
+            <div class="band l"></div><div class="band r"></div><div class="rim"></div>
+            <div class="fill" id="fill"></div>
+            <div class="foam" id="foam"></div>
+            <div class="label">BEER</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tap-ui">
+      <div class="gauge plush">
+        <div class="row"><span>fill</span><span id="lvl">0%</span></div>
+        <div class="tube" style="height:22px"><i id="lvlbar" style="background-color:var(--amber);background-image:radial-gradient(circle at 30% 30%,rgba(255,255,255,.35) 0 26%,transparent 27%),radial-gradient(circle at 72% 70%,rgba(59,38,23,.22) 0 24%,transparent 25%);background-size:13px 13px,10px 10px"></i></div>
+        <div class="row" style="margin:16px 0 0"><span>pints poured</span><span>lifetime</span></div>
+        <div class="num" id="pints">0</div>
+        <div id="verdict">handle is up. mug is empty.</div>
+      </div>
+      <button class="btn" id="pourbtn">hold to pour</button>
+      <div class="gauge plush">
+        <div class="notes">
+          <b>rule 01</b> · the foam is a pom-pom. it does not settle.<br>
+          <b>rule 02</b> · stop at the stitching. the stitching is the line.<br>
+          <b>rule 03</b> · if it goes over, the floor is also plush.<br>
+          <b>rule 04</b> · nobody is closing. nobody is opening either.
+        </div>
+        <div class="snd" style="margin-top:16px">
+          <button id="sbtn">sound on</button>
+          <input id="vol" type="range" min="0" max="100" value="35" aria-label="volume">
+        </div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- LORE -->
+<section id="who"><div class="wrap">
+  <div class="head"><h2 class="disp">WHO IS BBEEARR</h2><span class="tag">field notes · week 14</span></div>
+  <div class="lore">
+    <p class="plush"><em>the factory</em>they had a pattern for a bear and a pattern for a mug and only one needle. the machine sewed both without stopping. i came out holding it. nobody on the line said anything.</p>
+    <p class="plush"><em>the beer</em>the beer is yarn. the foam is a pom-pom stitched to the rim. i tilt the mug and everything inside stays exactly where it was put.</p>
+    <p class="plush"><em>the eyes</em>my left eye is a button. my right eye is an eye. i have never been told which one is the mistake, and i have stopped asking at the counter.</p>
+    <p class="plush"><em>the bow tie</em>the bow tie was tied before me. it will be tied after me. i am the part in the middle that is warm.</p>
+  </div>
+</div></section>
+
+<!-- THE SET -->
+<section id="set"><div class="wrap">
+  <div class="head"><h2 class="disp">THE SET</h2><span class="tag">two channels. both are the bar.</span></div>
+  <div class="tv-wrap">
+    <div class="tv plush">
+      <div class="screen">
+        <img class="on" src="assets/hero.webp" alt="the bar at full light, bbeearr not moving, mug not moving">
+        <img src="assets/ch2.webp" alt="the same bar after hours, colour drained, everything still exactly where it sat">
+        <div class="lines"></div><div class="roll"></div>
+        <div class="ch" id="chlab">CH 01 · FELT</div>
+        <div class="rec">REC</div>
+      </div>
+      <div class="tv-bar">
+        <div class="eq"><i></i><i></i><i></i><i></i><i></i></div>
+        <span class="tag">no signal from outside</span>
+        <button class="btn alt" id="chbtn" style="padding:9px 16px;font-size:13px">ch +</button>
+      </div>
+    </div>
+    <div class="rules plush">
+      <h3 class="disp">HOUSE RULES</h3>
+      <ul>
+        <li>RULE 01: everything on the premises is sewn. including the floor.</li>
+        <li>RULE 02: the tap works. the liquid does not.</li>
+        <li>RULE 03: do not squeeze the regulars.</li>
+        <li>RULE 04: last call has not been called. the bell is felt.</li>
+      </ul>
+      <div class="ca" style="margin-top:18px"><em>ca</em><b>coming soon — the thread is still warm</b></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- GALLERY -->
+<section id="shelf"><div class="wrap">
+  <div class="head"><h2 class="disp">THE SHELF</h2><span class="tag">click any of it. it is soft.</span></div>
+  <div class="grid" id="grid"></div>
+</div></section>
+
+<!-- PEEK -->
+<div class="peek"><div class="row" id="peekrow"></div></div>
+
+<footer><div class="wrap">
+  <div class="mark2">BBEEARR</div>
+  <div class="tag">a bear, a mug, one seam between them</div>
+  <div class="btns">
+    <a class="btn" href="https://pump.fun" target="_blank" rel="noopener">buy</a>
+    <a class="btn alt" href="https://x.com" target="_blank" rel="noopener">x</a>
+    <a class="btn dark" href="https://dexscreener.com" target="_blank" rel="noopener">chart</a>
+  </div>
+  <div class="ca"><em>ca</em><b>coming soon — the thread is still warm</b></div>
+  <div class="stamp">tap 01 · felt · pal · still open</div>
+</div></footer>
+
+<div class="side-ca ca-row">click to copy contract</div>
+<div class="mob-ca ca ca-row"><em>ca</em><b>coming soon — copy on launch</b></div>
+
+<!-- LIGHTBOX -->
+<div id="lb" role="dialog" aria-modal="true">
+  <button class="x" id="lbx">close · esc</button>
+  <button class="nav prev" id="lbp">‹</button>
+  <figure><img id="lbi" src="" alt=""><figcaption id="lbc"></figcaption></figure>
+  <button class="nav next" id="lbn">›</button>
+</div>
+
+<script>
+(function(){
+  var body=document.body;
+
+  /* ---------- marquee ---------- */
+  var PH=["plush only","no liquid on premises","foam is a pom-pom","one eye is a button",
+          "refill with stuffing","dry bar since the factory","the bow tie stays on",
+          "nothing evaporates here","hold the handle","tap 01 is felt"];
+  var line=PH.map(function(p){return "<b>"+p+"</b>";}).join("");
+  document.getElementById('mqrow').innerHTML=line+line;
+
+  /* ---------- gallery data ---------- */
+  var SHOTS=[
+    ["m1","bbeearr on the shelf where he was put, mug in the left paw as delivered"],
+    ["m2","the face at close range: one button, one eye, no complaint"],
+    ["m3","the mug from the front, BEER embroidered by somebody in a hurry"],
+    ["m4","two back paws, four stitched toes each, never used"],
+    ["m5","the plaid bow tie, tied by the factory, retied by nobody"],
+    ["m6","the seam across the head where the ears were attached last"],
+    ["m7","the bar after hours, colour turned down, mug still full"],
+    ["m8","the whole regular, warm, unmoved, holding the same pint since day one"]
+  ];
+  var grid=document.getElementById('grid'), peek=document.getElementById('peekrow'), g="",p="";
+  SHOTS.forEach(function(s,i){
+    g+='<button data-i="'+i+'"><img src="assets/t-'+s[0]+'.webp" alt="'+s[1]+'" loading="lazy"></button>';
+    p+='<img src="assets/t-'+s[0]+'.webp" alt="'+s[1]+'" loading="lazy">';
+  });
+  grid.innerHTML=g; peek.innerHTML=p+p;
+
+  /* ---------- sound ---------- */
+  var actx=null,muted=false,vol=.35;
+  function blip(f,t){
+    if(muted) return;
+    try{
+      if(!actx) actx=new (window.AudioContext||window.webkitAudioContext)();
+      var o=actx.createOscillator(),g2=actx.createGain();
+      o.type=t||'square'; o.frequency.value=f||220; g2.gain.value=.05*vol;
+      o.connect(g2); g2.connect(actx.destination); o.start();
+      g2.gain.exponentialRampToValueAtTime(.0001,actx.currentTime+.09);
+      o.stop(actx.currentTime+.11);
+    }catch(e){}
+  }
+  var sbtn=document.getElementById('sbtn');
+  sbtn.onclick=function(){muted=!muted;sbtn.textContent=muted?'sound off':'sound on';if(!muted)blip(420);};
+  document.getElementById('vol').oninput=function(){vol=this.value/100;};
+
+  /* ---------- gate + loader ---------- */
+  var ASSETS=["assets/cut-bear.webp","assets/hero.webp","assets/ch2.webp",
+    "assets/t-m1.webp","assets/t-m2.webp","assets/t-m3.webp","assets/t-m4.webp",
+    "assets/t-m5.webp","assets/t-m6.webp","assets/t-m7.webp","assets/t-m8.webp"];
+  var STEPS=["adding fluff","aligning ears","tying bow tie","threading foam","warming the mug","closing the seam"];
+  var done=0,finished=false;
+  function setProg(){
+    var pc=Math.min(100,Math.round(done/ASSETS.length*100));
+    document.getElementById('bar').style.width=pc+'%';
+    document.getElementById('pct').textContent=pc+'% · '+STEPS[Math.min(STEPS.length-1,Math.floor(pc/100*STEPS.length))];
+    if(pc>=100) finish();
+  }
+  function finish(){
+    if(finished) return; finished=true;
+    setTimeout(function(){ body.classList.remove('loading'); blip(330); },420);
+  }
+  document.getElementById('skip').onclick=finish;
+  document.getElementById('enter').onclick=function(){
+    body.classList.add('entered','loading'); blip(520);
+    ASSETS.forEach(function(src){
+      var im=new Image();
+      im.onload=im.onerror=function(){done++;setProg();};
+      im.src=src;
+    });
+    setProg();
+    setTimeout(finish,6000);
+  };
+
+  /* ---------- channels ---------- */
+  var imgs=document.querySelectorAll('.screen img'),cur=0;
+  document.getElementById('chbtn').onclick=function(){
+    imgs[cur].classList.remove('on'); cur=(cur+1)%imgs.length; imgs[cur].classList.add('on');
+    document.getElementById('chlab').textContent = cur===0 ? 'CH 01 · FELT' : 'CH 02 · AFTER HOURS';
+    blip(180+cur*120);
+  };
+
+  /* ---------- THE TAP ---------- */
+  var fillEl=document.getElementById('fill'),foamEl=document.getElementById('foam'),
+      lvlEl=document.getElementById('lvl'),lvlBar=document.getElementById('lvlbar'),
+      pintsEl=document.getElementById('pints'),verd=document.getElementById('verdict'),
+      streamEl=document.getElementById('stream'),pourBtn=document.getElementById('pourbtn');
+  var level=0,foam=0,holding=false,locked=false,last=0,blipT=0;
+  var pints=0; try{pints=parseInt(localStorage.getItem('bbeearr_pints')||'0',10)||0;}catch(e){}
+  pintsEl.textContent=pints;
+
+  var mugEl=document.getElementById('mug');
+  var SIZES=[34,42,30,38,26];
+  function poms(h){
+    if(h<4) return "";
+    var rows=Math.max(1,Math.min(3,Math.ceil(h/20))),s="",i,r;
+    for(r=0;r<rows;r++){
+      for(i=0;i<5;i++){
+        var sz=SIZES[(i+r)%5]-r*4;
+        s+='<i style="left:'+(i*21-4+(r%2?5:0))+'%;bottom:'+(r*15)+'px;width:'+sz+'px;height:'+sz+'px"></i>';
+      }
+    }
+    return s;
+  }
+  var lastPom=-1;
+  function draw(){
+    var L=Math.min(118,level);
+    fillEl.style.height=Math.min(100,L)+'%';
+    foam=Math.min(56,foam);
+    var fh=Math.round(foam);
+    foamEl.style.height=fh+'px';
+    foamEl.style.bottom='calc('+Math.min(100,L)+'% - 10px)';
+    var key=Math.max(1,Math.min(3,Math.ceil(fh/20)));
+    if(key!==lastPom){ foamEl.innerHTML=poms(fh); lastPom=key; }
+    mugEl.classList.toggle('crowned',level>=90);
+    lvlEl.textContent=Math.round(level)+'%';
+    lvlBar.style.width=Math.min(100,level)+'%';
+    streamEl.style.height=holding?'72px':'0';
+  }
+  function loop(t){
+    var dt=Math.min(50,t-(last||t)); last=t;
+    if(holding&&!locked){
+      level+=dt*.030;
+      foam+=dt*.028;
+      if(t-blipT>110){ blip(120+Math.min(300,level*2.4),'sine'); blipT=t; }
+      if(level>=118){ overflow(); }
+    }else{
+      if(foam>16) foam-=dt*.012;
+    }
+    draw();
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+
+  function overflow(){
+    if(locked) return;
+    holding=false;locked=true;body.classList.remove('pouring');body.classList.add('spill');
+    verd.textContent='overpoured. the floor is also plush.';
+    blip(90,'sawtooth');
+    setTimeout(function(){
+      level=0;foam=0;locked=false;body.classList.remove('spill');
+      verd.textContent='mug emptied. it was never wet.';
+    },1900);
+  }
+  function start(e){
+    if(locked) return;
+    if(e&&e.cancelable) e.preventDefault();
+    holding=true;body.classList.add('pouring');
+    verd.textContent='pouring · the yarn is moving';
+  }
+  function stop(){
+    if(!holding||locked) return;
+    holding=false;body.classList.remove('pouring');
+    if(level>=88&&level<=104){
+      pints++; try{localStorage.setItem('bbeearr_pints',pints);}catch(e){}
+      pintsEl.textContent=pints;
+      verd.textContent='perfect pour. right at the stitching.';
+      blip(660,'triangle'); setTimeout(function(){blip(880,'triangle');},130);
+      setTimeout(function(){ level=0;foam=0;verd.textContent='mug reset. handle is up.'; },1500);
+    }else if(level<88){
+      verd.textContent='short pour. the stitching is higher than that.';
+      blip(200);
+    }
+  }
+  pourBtn.addEventListener('pointerdown',start);
+  window.addEventListener('pointerup',stop);
+  window.addEventListener('pointercancel',stop);
+  pourBtn.addEventListener('contextmenu',function(e){e.preventDefault();});
+  document.addEventListener('keydown',function(e){
+    if(e.code==='Space'&&document.activeElement===pourBtn){e.preventDefault();if(!holding)start();}
+  });
+  document.addEventListener('keyup',function(e){ if(e.code==='Space') stop(); });
+
+  /* ---------- lightbox ---------- */
+  var lb=document.getElementById('lb'),lbi=document.getElementById('lbi'),lbc=document.getElementById('lbc'),at=0;
+  function show(i){
+    at=(i+SHOTS.length)%SHOTS.length;
+    lbi.src='assets/'+SHOTS[at][0]+'.webp'; lbi.alt=SHOTS[at][1]; lbc.textContent=SHOTS[at][1];
+    lb.classList.add('on'); blip(300);
+  }
+  grid.addEventListener('click',function(e){
+    var b=e.target.closest('button'); if(b) show(parseInt(b.dataset.i,10));
+  });
+  document.getElementById('lbx').onclick=function(){lb.classList.remove('on');};
+  document.getElementById('lbp').onclick=function(e){e.stopPropagation();show(at-1);};
+  document.getElementById('lbn').onclick=function(e){e.stopPropagation();show(at+1);};
+  lb.addEventListener('click',function(e){ if(e.target===lb) lb.classList.remove('on'); });
+  document.addEventListener('keydown',function(e){
+    if(!lb.classList.contains('on')) return;
+    if(e.key==='Escape') lb.classList.remove('on');
+    if(e.key==='ArrowLeft') show(at-1);
+    if(e.key==='ArrowRight') show(at+1);
+  });
+
+  /* ---------- copy feedback ---------- */
+  document.querySelectorAll('.ca,.ca-row').forEach(function(el){
+    el.addEventListener('click',function(){
+      blip(740);
+      var b=el.querySelector('b');
+      if(b&&(window.CONTRACT||"").trim()){
+        var old=b.textContent; b.textContent='copied. keep it warm.';
+        setTimeout(function(){b.textContent=old;},1200);
+      }
+    });
+  });
+})();
+</script>
